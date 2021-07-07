@@ -1,9 +1,15 @@
 export class View {
-    constructor(seletor) {
-        this.elemento = document.querySelector(seletor);
+    constructor(seletor, escapar = false) {
+        this.seletor = seletor;
+        this.escapar = escapar;
+        this.elemento = document.querySelector(this.seletor);
     }
     update(model) {
-        const template = this.template(model);
+        let template = this.template(model);
+        if (this.escapar) {
+            const exp = /<script>[\s\S]*?<\/script>/;
+            template = template.replace(exp, '');
+        }
         this.elemento.innerHTML = template;
     }
 }
