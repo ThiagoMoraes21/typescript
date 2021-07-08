@@ -1,7 +1,10 @@
 export function domInjector(seletor: string) {
     return function(target: any, propertyKey: string) {
+        let elemento: HTMLElement;
         const getter = function() {
-            const elemento = document.querySelector(seletor);
+            if(!elemento) {
+                elemento = document.querySelector(seletor) as HTMLElement; 
+            }
             return elemento;
         }
 
