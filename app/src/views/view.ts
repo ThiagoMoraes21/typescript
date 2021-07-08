@@ -4,7 +4,7 @@ import { logarTempoDeExecucao } from "../decorators/logar-tempo-de-execucao.js";
 export abstract class View<T> {
     protected elemento: HTMLElement;
 
-    constructor(private seletor: string, private escapar: boolean = false) {
+    constructor(private seletor: string) {
         const elemento = document.querySelector(this.seletor);
         if(elemento) {
             this.elemento = elemento as HTMLElement;
@@ -19,10 +19,6 @@ export abstract class View<T> {
     @logarTempoDeExecucao(true)
     public update(model: T): void {
         let template = this.template(model);
-        if(this.escapar) {
-            const exp = /<script>[\s\S]*?<\/script>/;
-            template = template.replace(exp, '');
-        }
         this.elemento.innerHTML = template;
     }
 }
